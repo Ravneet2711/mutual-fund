@@ -6,24 +6,27 @@ import FundDetail from './Components/FundDetails';
 
 const App = () => {
   const [data,setData] = useState(null);
-  // const [error, setError] = useState(null);
   const [selectedFund, setSelectedFund] =  useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery,setSearchQuery] = useState('')
+  const [searchQuery,setSearchQuery] = useState('');
+  const [showAllResults, setShowAllResults] = useState(false);
 
   useEffect(()=>{
     const fetchData = async()=>{
+      setIsLoading(true);
       try{
         const response =  await fetch("https://api.mfapi.in/mf");
         if(!response.ok){
           throw new Error('Network response not ok');
         }
         const jsonData = await response.json();
-        setData(jsonData.slice(0, 20)); 
+        setData(jsonData); 
         setIsLoading(false);
       }catch(error){
         console.error(error);
-        setIsLoading(false);
+      }
+      finally {
+        setIsLoading(false); 
       }
     };
     fetchData();
@@ -33,28 +36,40 @@ const App = () => {
     setSearchQuery(query);
     setSelectedFund(null);
   }
+  
 
   if (isLoading) {
     return <div className='loading'>Loading...</div>;
   }
+  console.log(data.slice(0,20));
 
   const handleFundClick = (schemeCode) => {
     const selected = data.find((item) => item.schemeCode === schemeCode);
     setSelectedFund(selected);
   };
 
+  const handleShowAll = () => {
+    setIsLoading(true); 
+    setShowAllResults(true);
+    setIsLoading(false);
+  };
+
   return (
     <div>
       <h1 className='main-heading'>Mutual Funds <span>India</span></h1>
       <SearchFund onSearch= {handleSearch}/>
+      
       {selectedFund ? (
         <FundDetail selectedFund={selectedFund} />
       ) : (
-        <MutualList data={data}  searchQuery ={searchQuery} fundClick={handleFundClick} />
+        <>
+         <MutualList data={ !showAllResults ? data.slice(0,8) : data } searchQuery ={searchQuery} fundClick={handleFundClick} />
+        {!showAllResults && (
+            <button onClick={handleShowAll} className='result_btn'>Show All Results</button>
+          )}
+        </>
       )}
-     
-      
-       
+    
     </div>
   )
 }

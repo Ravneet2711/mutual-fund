@@ -4,12 +4,14 @@ const SearchFund = ({onSearch}) => {
     const [query,setQuery] = useState(" ");
 
     const handleChange = (e) => {
-        setQuery(e.target.value);
+      const inputValue = e.target.value;
+      setQuery(inputValue);
+      onSearch(inputValue); 
+       
       };
 
     const handleSubmit=(e)=>{
         e.preventDefault();
-        onSearch(query)
     }
 
   return (

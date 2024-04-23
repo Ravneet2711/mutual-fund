@@ -97,6 +97,18 @@ h5{
   font-size: 20px;
 }
 
+.result_btn{
+  margin: 30px auto;
+    display: block;
+    background: #e1e8ee;
+    padding: 20px;
+    border-radius: 7px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid #82b9e6;
+    letter-spacing: 0.1rem;
+    cursor: pointer;
+}
+
 @media (max-width:765px) {
   .specific_data {
     max-width: 500px;
@@ -132,3 +144,4 @@ form {
   max-width: 300px;
 }
 }
+

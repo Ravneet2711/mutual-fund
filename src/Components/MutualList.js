@@ -10,8 +10,9 @@ const MutualList = ({data,searchQuery,fundClick}) => {
   return (
     <div>
         <ul>
-            {filteredData.map((item,index)=><li key={index} onClick={() => fundClick(item.schemeCode)}> {item.schemeName}</li>)}
+          {filteredData.map((item,index)=><li key={index} onClick={() => fundClick(item.schemeCode)}> {item.schemeName}</li>)}
         </ul>
+        
     </div>
   )
 }
